@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="auto">
+
+<head>
+  <script src="../js/color-modes.js"></script>
+  <link rel="stylesheet" href="../bootstrap-icons-1.10.5/font/bootstrap-icons.min.css" />
+  <link rel="shortcut icon" href="../img/ali.png" type="image/x-icon">
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="" />
+  <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors" />
+  <meta name="generator" content="Hugo 0.112.5" />
+  <title>Home page</title>
+
+  <link href="../css/bootstrap.min.css" rel="stylesheet" />
+  <link href="../css/dark&light.css" rel="stylesheet" />
+
+
+  <!-- Custom styles for this template -->
+  <link href="../css/sidebars.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/myStyle.css" />
+</head>
+
+<body>
+  <%- include('../Components/dark&light.ejs') %>
+
+    <main class="d-flex flex-nowrap">
+      <%- include('../Components/sidebar.ejs',{currentPage:"add"}) %>
+
+
+        <section class="w-100">
+          <%- include('../Components/navbar.ejs', {currentPage:"add"}) %>
+
+
+            <form class="mx-0 row gx-3 gy-4 mt-3" action="/user/add.html" method="post">
+              <div class="d-inline-flex ">
+              <div class="col-md-3 ms-3">
+              
+                <label for="inputfirstName4" class="form-label">First Name:</label>
+                <input name="firstName" placeholder="Ali..." type="text" class="form-control" id="inputfirstName4" />
+              </div>
+              <div class="col-md-3 ms-3">
+                <label for="inputlastName4" class="form-label">Last Name:</label>
+                <input name="lastName" placeholder="Hassan..." type="text" class="form-control" id="inputlastName4" />
+              </div>
+            </div>
+            <div class="d-inline-flex " >
+              <div class="col-md-3 ms-3">
+                <label for="inputemail4" class="form-label">Email:</label>
+                <input name="email" placeholder="ali@gmail.com" type="email" class="form-control" id="inputemail4" />
+              </div>
+              <div class="col-md-3 ms-3">
+                <label for="inputtele4" class="form-label">Telephone:</label>
+                <input name="phoneNumber" placeholder="011987899" type="number" class="form-control" id="inputtele4" />
+              </div>
+
+            </div>
+                <div class="col-md-6 ms-3">
+                  <label for="adress" class="form-label">adress:</label>
+                  <input name="adress" placeholder="adress" type="text" class="form-control" id="adress" />
+                </div>
+              
+            <div>
+                <div class="col-md-6 ms-3">
+                  <label for="note" class="form-label">note:</label>
+                  <input name="note" placeholder="note" type="text" class="form-control" id="note" />
+                </div>
+              </div>
+
+
+              <div>
+                <div class="col-md-6 ms-3">
+                  <label for="type" class="form-label">type:</label>
+                  <select name="type" id="type" class="form-select">
+                    <option selected hidden disabled>Choose here ...</option>
+                    <option>individul</option>
+                    <option>company</option>
+                  </select>
+                </div>
+              </div>
+              <hr>
+              <div id="items">
+                <!-- Dynamic input fields for items -->
+                <div class="item d-inline-flex justify-content-between col-md-12 align-items-center">
+                  <input class="form-control col m-2 description" type="text" name="items[0][name]"
+                    placeholder="Description">
+                  <input class="form-control col m-2 code" type="text" name="items[0][code]" placeholder="Code">
+
+                  <input class="form-control col m-2 quantity" type="number" name="items[0][quantity]"
+                    placeholder="Quantity">
+                  <input class="form-control col m-2 price" type="number" name="items[0][price]" placeholder="Price">
+                  <!-- Hidden input field for storing subtotal sum -->
+                  <input class="subtotalInput" type="hidden" id="subTotalInput" name="items[0][subtotal]" value="0">
+                  <div class="subtotal col m-2">Subtotal: $0.00</div>
+
+                  <button type="button" class=" btn btn-danger m-2">Remove</button>
+                </div>
+              </div>
+              <hr>
+              <div class="d-inline-flex md-12">
+                <div class="col-9">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+
+                  <button type="button" id="addItem" class="btn btn-primary">Add Item</button>
+                  <button type="button" id="calculateTotalBtn" class="btn btn-success">Calculate Total</button>
+                  <input type="hidden" id="totalSumInput" name="totalsum" value="0">
+                  <input type="hidden" id="rest" name="rest" value="0">
+                
+                </div>
+                <div class=" d-block">
+
+                  <div id="totalSum"></div>
+                  <div class="col-md-9 mt-2">
+                    <!-- <label for="paidAmount" class="form-label">paid:</label> -->
+                    <input name="paid" placeholder="paid" type="number" class="form-control" id="paidAmount" />
+                  </div>
+                  <hr>
+                  <div id="Rest"></div>
+
+
+                </div>
+
+              </div>
+            </form>
+            <script>
+
+
+
+              let totalSum = 0;
+
+              // Function to calculate and display the total sum of all items
+              function calculateTotalSum() {
+                let totalSum = 0;
+                const itemRows = document.querySelectorAll('.item');
+                for (let i = 0; i < itemRows.length; i++) {
+
+                  const row = itemRows[i];
+
+                  const quantity = parseFloat(row.querySelector('.quantity').value) || 0;
+                  const price = parseFloat(row.querySelector('.price').value) || 0;
+
+
+                  const subtotal = quantity * price;
+
+                  if (i === 0) {
+                    totalSum += parseFloat((subtotal));
+                    // Adjust calculation for the second iteration (index 1)
+                  } else {
+                    totalSum += parseFloat((subtotal) * (1 / 2));
+
+                  }
+
+
+                  const subtotalDisplay = row.querySelector('.subtotal');
+                  subtotalDisplay.textContent = `Subtotal: $${subtotal.toFixed(2)}`;
+
+                  const subtotalInput = row.querySelector('.subtotalInput');
+                  subtotalInput.value = subtotal.toFixed(2);
+
+
+
+
+                };
+
+                // Update hidden input field with total sum
+                document.getElementById('totalSumInput').value = totalSum.toFixed(2);
+
+
+                // Update total sum display
+                const totalSumDisplay = document.getElementById('totalSum');
+                totalSumDisplay.textContent = `Total Sum: ${totalSum.toFixed(2)}`; // Display total sum with two decimal places
+
+                // Calculate and display the rest (total - paid amount)
+                const paidAmount = parseFloat(document.getElementById('paidAmount').value) || 0;
+                const rest = totalSum - paidAmount;
+                const restDisplay = document.getElementById('Rest');
+                restDisplay.textContent = `Rest: $${rest.toFixed(2)}`;
+                document.getElementById('rest').value = rest.toFixed(2);
+
+              }
+
+
+              // Event listener for adding new item
+              document.getElementById('addItem').addEventListener('click', function () {
+                const itemsDiv = document.getElementById('items');
+                const itemIndex = itemsDiv.children.length;
+                const newItem = document.createElement('div');
+                newItem.classList.add('item');
+                newItem.innerHTML = `
+    <div class="item d-inline-flex justify-content-between col-md-12 align-items-center" >
+        <input class="form-control col m-2 description" type="text" name="items[${itemIndex}][name]" placeholder="Description">
+                <input class="form-control col m-2 code" type="text" name="items[${itemIndex}][code]" placeholder="Code">
+
+        <input class="form-control col m-2 quantity" type="number" name="items[${itemIndex}][quantity]" placeholder="Quantity">
+        <input class="form-control col m-2 price" type="number" name="items[${itemIndex}][price]" placeholder="Price">
+        <!-- Hidden input field for storing subtotal sum -->
+        <input class="subtotalInput" type="hidden" id="subTotalInput" name="items[${itemIndex}][subtotal]" value="0">
+        <div class="subtotal col m-2">Subtotal: $0.00</div>
+
+        <button type="button" class="removeItem btn btn-danger m-2">Remove</button>
+    </div>`;
+                itemsDiv.appendChild(newItem);
+
+
+                // Recalculate total sum
+                calculateTotalSum();
+              });
+
+              // Event listener for removing item
+              document.addEventListener('click', function (event) {
+                if (event.target.classList.contains('removeItem')) {
+                  event.target.parentElement.remove();
+                  // Recalculate total sum
+                  calculateTotalSum();
+                }
+
+              });
+              // Event listener for calculating total when the button is clicked
+              document.getElementById('calculateTotalBtn').addEventListener('click', function () {
+                calculateTotalSum();
+              });
+
+              // Initial call to calculate total sum
+              calculateTotalSum();
+
+
+            </script>
+        </section>
+    </main>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+
+    <script src="../js/sidebars.js"></script>
+    <script src="../js/main.js"></script>
+</body>
+
+</html>

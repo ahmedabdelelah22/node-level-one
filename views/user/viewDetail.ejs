@@ -1,0 +1,115 @@
+ <!DOCTYPE html>
+<html lang="en" data-bs-theme="auto">
+  <head>
+    <script src="../js/color-modes.js"></script>
+    <link
+      rel="stylesheet"
+      href="../bootstrap-icons-1.10.5/font/bootstrap-icons.min.css"
+    />
+    <link rel="shortcut icon" href="../img/ali.png" type="image/x-icon">
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="" />
+    <meta
+      name="author"
+      content="Mark Otto, Jacob Thornton, and Bootstrap contributors"
+    />
+    <meta name="generator" content="Hugo 0.112.5" />
+    <title>view page</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../css/dark&light.css" rel="stylesheet" />
+
+   
+    <!-- Custom styles for this template -->
+    <link href="../css/sidebars.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/myStyle.css" />
+  </head>
+  <body>
+    <%- include('../Components/dark&light.ejs') %>
+
+    <main class="d-flex flex-nowrap">
+      <%- include('../Components/sidebar.ejs',{currentPage:"viewDetail"}) %>
+
+
+      <section class="w-100">
+        <%- include('../Components/navbar.ejs') %>
+
+        
+        </nav>
+
+        
+<div>
+        <table
+          style="width:50% ;"
+          class="ms-3 table mt-3 table-sm table-striped table-bordered"
+        >
+          <thead>
+            <tr>
+              <th scope="col"> Name</th>
+              <th class="fw-normal" scope="col"><%= obj.client %></th>
+            </tr>
+          </thead>
+          <tbody>
+            
+
+            <tr>
+              <th scope="row">Telephone</th>
+              <td><%= obj.phone %></td>
+            </tr>
+          
+          </tbody>
+       </table>
+       <div class="col-md-9 ms-3  ">
+        <table           style="width: 67%"
+        class="table table-sm table-striped table-bordered">
+          <thead>
+            <tr>
+              <th>name</th>
+              <th>code</th>
+
+              <th>codeVole</th>
+              <th>height</th>
+              <th>width</th>
+              <th>quantity</th>
+              <th>vole_quantity</th>
+              <th>pipe_quantity</th>
+              <th>Detail</th>
+              <th>pipe</th>
+              <th>price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% obj.items.forEach(function(item, index) { %>
+              <tr>
+                <td><%= item.name %></td>
+                <td><%= item.code %></td>
+
+                <td><%= item.codeVole %></td>
+                <td><%= item.height %></td>
+                <td><%= item.width %></td>
+
+                <td><%= item.quantity %></td>
+                <td><%= item.vole_quantity %></td>
+                <td><%= item.pipe_quantity %></td>
+
+                <td><%= item.Detail %></td>
+                <td><%= item.pipe %></td>
+                <td><%= item.price %></td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+      
+      </div>
+      </section>
+      
+    </main>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+
+    <script src="../js/sidebars.js"></script>
+    <script src="../js/main.js"></script>
+  </body>
+</html> 

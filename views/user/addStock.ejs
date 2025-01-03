@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="auto">
+  <head>
+    <script src="../js/color-modes.js"></script>
+    <link
+      rel="stylesheet"
+      href="../bootstrap-icons-1.10.5/font/bootstrap-icons.min.css"
+    />
+    <link rel="shortcut icon" href="../img/ali.png" type="image/x-icon">
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="" />
+    <meta
+      name="author"
+      content="Mark Otto, Jacob Thornton, and Bootstrap contributors"
+    />
+    <meta name="generator" content="Hugo 0.112.5" />
+    <title>Add Stock</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../css/dark&light.css" rel="stylesheet" />
+
+
+    <!-- Custom styles for this template -->
+    <link href="../css/sidebars.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/myStyle.css" />
+  </head>
+  <body>
+    <%- include('../Components/dark&light.ejs') %>
+
+    <main class="d-flex flex-nowrap">
+      <%- include('../Components/sidebar.ejs',{currentPage:"addStock"}) %>
+
+
+      <section class="w-100">
+        <div>
+        <%- include('../Components/navbar.ejs') %>
+      </div>
+<div class="d-block">
+        <form class="mx-0 row gx-3 gy-4 mt-3" action="/user/addStock.html" method="post">
+          <div class="col-md-6">
+            <label for="name" class="form-label">name:</label>
+            <input
+              name="name"
+              placeholder="name..."
+              type="text"
+              class="form-control"
+              id="name"
+            />
+          </div>
+          <div class="col-md-6">
+            <label for="code" class="form-label">code:</label>
+            <input
+              name="code"
+              placeholder="code..."
+            
+              type="text"
+              class="form-control "
+              id="code"
+              required
+            
+            />
+            
+            <div id="message"></div>
+
+          </div>
+          <div class="col-md-6">
+            <label for="quantity" class="form-label">quantity:</label>
+            <input
+              name="quantity"
+              placeholder="quantity..."
+              type="text"
+              class="form-control"
+              id="quantity"
+            />
+          </div>
+          <div class="col-md-6">
+            <label for="price" class="form-label">price:</label>
+            <input
+              name="price"
+              placeholder="price..."
+              type="text"
+              class="form-control"
+              id="price"
+            />
+          </div>
+          <div class="col-12 mt-3">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        
+        </form>
+      </div>
+        <script>
+    
+     
+      </script>
+      </section>
+    </main>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+
+    <script src="../js/sidebars.js"></script>
+    <script src="../js/main.js"></script>
+  </body>
+</html>

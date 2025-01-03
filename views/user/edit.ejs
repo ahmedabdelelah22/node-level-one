@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="auto">
+
+<head>
+  <script src="../js/color-modes.js"></script>
+  <link rel="stylesheet" href="../bootstrap-icons-1.10.5/font/bootstrap-icons.min.css" />
+  <link rel="shortcut icon" href="../img/ali.png" type="image/x-icon">
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="" />
+  <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors" />
+  <meta name="generator" content="Hugo 0.112.5" />
+  <title>Edit page</title>
+
+  <link href="../css/bootstrap.min.css" rel="stylesheet" />
+  <link href="../css/dark&light.css" rel="stylesheet" />
+
+
+  <!-- Custom styles for this template -->
+  <link href="../css/sidebars.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/myStyle.css" />
+</head>
+
+<body>
+  <%- include('../Components/dark&light.ejs') %>
+
+    <main class="d-flex flex-nowrap">
+      <%- include('../Components/sidebar.ejs',{currentPage:"edit"}) %>
+
+
+        <section class="w-100">
+          <%- include('../Components/navbar.ejs') %>
+
+
+
+            <nav class="px-2 mt-4 d-flex flex-wrap  justify-content-between" aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item "><a href="/">Home</a></li>
+                <li class="breadcrumb-item active " aria-current="page"><%= obj.firstName %></li>
+              </ol>
+
+
+              <p class="me-md-5 "> <span class="fw-medium fs-6">Id :</span> <%= obj._id %></p>
+              </nav>
+
+            <form class="mx-0 row gx-3 gy-4 mt-2 me-4" action="/edit/<%= obj._id %>?_method=PUT" method="post">
+              <div class="col-md-2">
+                <label for="inputfirstName" class="form-label">First Name:</label>
+                <input name="firstName" type="text" class="form-control" id="inputfirstName4" value="<%= obj.firstName %>" />
+              </div>
+              <div class="col-md-2">
+                <label for="inputlastName4" class="form-label">Last Name:</label>
+                <input  name="lastName" type="text" class="form-control" id="inputlastName4" value="<%= obj.lastName %>" />
+              </div>
+
+              <div class="col-md-2">
+                <label for="inputemail4" class="form-label">Email:</label>
+                <input  name="email" type="email" class="form-control" id="inputemail4"  value="<%= obj.email %>"/>
+              </div>
+              <div class="col-md-2">
+                <label for="inputtele4" class="form-label">Telephone:</label>
+                <input name="phoneNumber"  type="number" class="form-control" id="inputtele4" value="<%= obj.phoneNumber %>"/>
+              </div>
+              <div class="col-md-2">
+                <label for="adress" class="form-label">adress:</label>
+                <input name="adress"  type="text" class="form-control" id="adress" value="<%= obj.adress %>"/>
+              </div>
+              <div class="col-md-2">
+                <label for="note" class="form-label">note:</label>
+                <input name="note"  type="text" class="form-control" id="note" value="<%= obj.note %>"/>
+              </div>
+
+              <div class="col-md-2">
+                <label for="paid" class="form-label">paid:</label>
+                <input name="paid"  type="number" class="form-control" id="paid" value="<%= obj.paid %>"/>
+              </div>
+              <div class="col-md-2">
+                <label for="rest" class="form-label">rest:</label>
+                <input name="rest"  type="number" class="form-control" id="rest" value="<%= obj.rest %>"/>
+              </div>
+                <div class="col-md-2">
+                  <label for="type" class="form-label">type</label>
+                  <select id="type" name="type" class="form-select">
+                    <option selected  ><%= obj.type %></option>
+                    <option>individul</option>
+                    <option>company</option>
+                  </select>
+                </div>
+        
+              <!-- <div col-md-6 >
+              <% obj.items.forEach(function(item, index) { %>
+                <div class="item row mb-3 m-3">
+                    <input class="form-control col" type="text"   name="items[<%= index %>][name]"     value="<%= item.name %>">
+                    <input class="form-control col" type="number" name="items[<%= index %>][quantity]" value="<%= item.quantity %>">
+                    <input class="form-control col" type="number" name="items[<%= index %>][price]"    value="<%= item.price %>">
+                </div>
+            <% }); %>
+          </div> -->
+          <div>
+          <div class="col-md-6  d-block  ">
+            <table class="table  table-bordered table-striped ">
+              <thead >
+                <tr>
+                  <th>Description</th>
+                  <th>code</th>
+                  <th>Price</th>
+                  <th>Quantity</th>
+                  <th>Subtotal</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% obj.items.forEach(function(item, index) { %>
+                  <tr>
+                    <td><%= item.name %></td>
+                    <td><%= item.code %></td>
+
+                    <td><%= item.price %></td>
+                    <td><%= item.quantity %></td>
+                    <td><%= item.subtotal %></td>
+                  </tr>
+                <% }); %>
+              </tbody>
+            </div>
+            </table>
+          </div>
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary">
+                  Update changes
+                </button>
+             
+                <button data-bs-toggle="modal" data-bs-target="#exampleModal" type="button" class="btn btn-danger">
+                  Delete Customer
+                </button>
+              </div>
+            </form>
+        </section>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">
+                  Delete Customer
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">Are you sure you want to continue delete the customer?</div>
+              <div class="modal-footer">
+                
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                  Close
+                </button>
+                <form action="/edit/<%= obj._id %>?_method=DELETE" method="post">
+                 <button type="submit"
+                    class="btn btn-danger">
+                    Delete
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+    </main>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+
+    <script src="../js/sidebars.js"></script>
+    <script src="../js/main.js"></script>
+</body>
+
+</html>

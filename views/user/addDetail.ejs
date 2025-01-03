@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="auto">
+
+<head>
+  <script src="../js/color-modes.js"></script>
+  <link rel="stylesheet" href="../bootstrap-icons-1.10.5/font/bootstrap-icons.min.css" />
+  <link rel="shortcut icon" href="../img/ali.png" type="image/x-icon">
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="" />
+  <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors" />
+  <meta name="generator" content="Hugo 0.112.5" />
+  <title>Add Detail</title>
+
+  <link href="../css/bootstrap.min.css" rel="stylesheet" />
+  <link href="../css/dark&light.css" rel="stylesheet" />
+
+
+  <!-- Custom styles for this template -->
+  <link href="../css/sidebars.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/myStyle.css" />
+</head>
+
+<body>
+  <%- include('../Components/dark&light.ejs') %>
+
+    <main class="d-flex flex-nowrap">
+      <%- include('../Components/sidebar.ejs',{currentPage:"addDetail"}) %>
+
+
+        <section class="w-100">
+          <%- include('../Components/navbar.ejs', {currentPage:"addDetail"}) %>
+
+
+            <form class="mx-0 row gx-3 gy-4 mt-3" action="/user/addDetail.html" method="post" id="detailForm">
+              <div class="col-md-3">
+                <label for="client" class="form-label">client:</label>
+                <input name="client"  type="text" class="client form-control" id="client" />
+              </div>
+
+              <div class="col-md-3">
+                <label for="phone" class="form-label">phone:</label>
+                <input name="phone"  type="text" class="phone form-control" id="phone" />
+              </div>
+
+              <div id="items">
+                <div class="item d-inline-flex justify-content-between col-md-12 align-items-center">
+                  <div class="col-md-1">
+                    <label for="name" class="form-label">name:</label>
+                    <input name="items[0][name]"  type="text" class="name form-control" id="name" />
+                  </div>
+                  <div class="col-md-1">
+                    <label for="code" class="form-label">code:</label>
+                    <input name="items[0][code]"  type="text" class="code form-control" id="code" />
+                  </div>
+                  <div class="col-md-1">
+                    <label for="codeVole" class="form-label">codeVole:</label>
+                    <input name="items[0][codeVole]"  type="text" class="codeVole form-control"
+                      id="codeVole" />
+                  </div>
+                  <div class="col-md-1">
+                    <label for="height" class="form-label">height:</label>
+                    <input name="items[0][height]" type="text" class="height form-control"
+                      id="height" />
+                  </div>
+                  <div class="col-md-1">
+                    <label for="width" class="form-label">width:</label>
+                    <input name="items[0][width]" type="text" class="width form-control" id="width" />
+                  </div>
+                  <div class="col-md-1">
+                    <label for="quantity" class="form-label">quantity:</label>
+                    <input name="items[0][quantity]" type="text" class="quantity form-control"
+                      id="quantity" />
+                  </div>
+                  <div class="col-md-1">
+                    <label for="vole_quantity" class="form-label">vole_quantity:</label>
+                    <input name="items[0][vole_quantity]"  type="text"
+                      class="vole_quantity form-control" id="vole_quantity" />
+                  </div>
+                  <div class="col-md-1">
+                    <label for="pipe_quantity" class="form-label">pipe_quantity:</label>
+                    <input name="items[0][pipe_quantity]" type="text"
+                      class="pipe_quantity form-control" id="pipe_quantity" />
+                  </div>
+                  <!-- <div class="col-md-1">
+            <label for="unitprice" class="form-label">unit price:</label>
+            <input
+              name="unitprice"
+              placeholder="unit price..."
+              type="text"
+              class="form-control"
+              id="unitprice"
+              value="65"
+            />
+          </div> -->
+
+                  <div class="col-md-1">
+                    <label for="inputDetail" class="form-label">Detail:</label>
+                    <select name="items[0][Detail]" id="inputDetail" class="Detail form-select">
+                      <option selected hidden disabled> ...</option>
+                      <option>tape 2</option>
+                      <option>tape 3</option>
+                      <option>tape 4</option>
+                      <option>circles silver</option>
+                      <option>circles copper</option>
+                      <option>circles black</option>
+                    </select>
+                  </div>
+                  <div class="col-md-1">
+                    <label for="inputpipe" class="form-label">pipe:</label>
+                    <select name="items[0][pipe]" id="inputpipe" class="pipe form-select">
+                      <option selected hidden disabled> ...</option>
+                      <option>pipe silver</option>
+                      <option>pipe gold</option>
+                      <option>pipe black</option>
+                      <option>pipe copper</option>
+                      <option>magra 105</option>
+                      <option>wave</option>
+                    </select>
+                  </div>
+                  <div class="col-md-1">
+                    <label for="price" class="form-label">price:</label>
+                    <input name="items[0][price]" type="text" class="price form-control" id="price" />
+                  </div>
+                  <button type="button" class="removeItem btn btn-danger mt-4" >Remove</button>
+
+                </div>
+
+              </div>
+              <div class="col-9 m-2 d-inline-flex  ">
+                <button type="submit" class="btn btn-primary m-2">Submit</button>
+                <button type="button" class="btn btn-primary  m-2" id="calculate">Calculate </button>
+                <button type="button" id="addItem" class="btn btn-primary  m-2">Add Item</button>
+              </div>
+              <div id="totalSumDisplay" class="mt-3">
+                Total Sum: <span id="totalSumValue">0.00</span>
+            </div>  
+
+            </form>
+            <script>
+            function calculateValues() {
+    // Select all item rows
+    const items = document.querySelectorAll('.item');
+    let totalSum = 0;
+    let calculatedDetail2 = 0;
+
+    // Iterate over each item row
+    items.forEach((item, index) => {
+        // Get input fields within the current item row
+        let height = parseFloat(item.querySelector('.height').value) || 0;
+        let width = parseFloat(item.querySelector('.width').value) || 0;
+
+        // Perform calculation for current row
+        let calculatedQuantity = (Math.floor(width / 70) * (height + 20)) * (1 / 100);
+        let calculatedvole_quantity = (width * 2) * (1 / 100);
+        let calculatedpipe_quantity = (width * 2) * (1 / 100);
+     let calculatedDetail = ((calculatedvole_quantity + calculatedQuantity) * 65) + (calculatedpipe_quantity * 220);
+
+      //   Conditionally adjust the calculation based on index
+         
+      
+
+        // Update quantity fields for current row
+        item.querySelector('.quantity').value = calculatedQuantity.toFixed(2);
+        item.querySelector('.vole_quantity').value = calculatedvole_quantity.toFixed(2);
+        item.querySelector('.pipe_quantity').value = calculatedpipe_quantity.toFixed(2);
+        item.querySelector('.price').value = calculatedDetail.toFixed(2);
+
+        if (index === 0) {
+          totalSum += parseFloat((calculatedDetail));
+          // Adjust calculation for the second iteration (index 1)
+        }else{
+          totalSum += parseFloat((calculatedDetail)*(1/2));
+
+        }
+
+    });
+    document.getElementById('totalSumValue').textContent = totalSum.toFixed(2);
+
+}
+
+// Event listener for the "Calculate" button
+document.getElementById('calculate').addEventListener('click', function () {
+    calculateValues(); // Calculate values for all rows
+});
+
+// Event listener for dynamically added "Add Item" button
+document.getElementById('addItem').addEventListener('click', function () {
+    const itemsDiv = document.getElementById('items');
+    const itemIndex = itemsDiv.children.length;
+    const newItem = document.createElement('div');
+    newItem.classList.add('item');
+    newItem.innerHTML = `
+        <!-- Replace input fields with class names -->
+        <div class="item d-inline-flex justify-content-between col-md-12 align-items-center">
+            <div class="col-md-1">
+                    <input name="items[${itemIndex}][name]"  type="text" class="name form-control" id="name" />
+                  </div>
+                  <div class="col-md-1">
+                    <input name="items[${itemIndex}][code]"  type="text" class="code form-control" id="code" />
+                  </div>
+                  <div class="col-md-1">
+                    <input name="items[${itemIndex}][codeVole]"  type="text" class="codeVole form-control"
+                      id="codeVole" />
+                  </div>
+                  <div class="col-md-1">
+                    <input name="items[${itemIndex}][height]"  type="text" class="height form-control"
+                      id="height" />
+                  </div>
+                  <div class="col-md-1">
+                    <input name="items[${itemIndex}][width]"  type="text" class="width form-control" id="width" />
+                  </div>
+                  <div class="col-md-1">
+                    <input name="items[${itemIndex}][quantity]"  type="text" class="quantity form-control"
+                      id="quantity" />
+                  </div>
+                  <div class="col-md-1">
+                    <input name="items[${itemIndex}][vole_quantity]"  type="text"
+                      class="vole_quantity form-control" id="vole_quantity" />
+                  </div>
+                  <div class="col-md-1">
+                    <input name="items[${itemIndex}][pipe_quantity]"  type="text"
+                      class="pipe_quantity form-control" id="pipe_quantity" />
+                  </div>
+                  <!-- <div class="col-md-1">
+            <input
+              name="unitprice"
+              placeholder="unit price..."
+              type="text"
+              class="form-control"
+              id="unitprice"
+              value="65"
+            />
+          </div> -->
+
+                  <div class="col-md-1">
+                    <select name="items[${itemIndex}][Detail]" id="inputDetail" class="Detail form-select">
+                      <option selected hidden disabled> ...</option>
+                      <option>tape 2</option>
+                      <option>tape 3</option>
+                      <option>tape 4</option>
+                      <option>circles silver</option>
+                      <option>circles copper</option>
+                      <option>circles black</option>
+                    </select>
+                  </div>
+                  <div class="col-md-1">
+                    <select name="items[${itemIndex}][pipe]" id="inputpipe" class="pipe form-select">
+                      <option selected hidden disabled> ...</option>
+                      <option>pipe silver</option>
+                      <option>pipe gold</option>
+                      <option>pipe black</option>
+                      <option>pipe copper</option>
+                      <option>magra 105</option>
+                      <option>wave</option>
+                    </select>
+                  </div>
+                  <div class="col-md-1">
+                    <input name="items[${itemIndex}][price]"  type="text" class="price form-control" id="price" />
+                  </div>
+                  <button type="button" class="removeItem btn btn-danger mt-2 ">Remove</button>
+
+                </div>
+        </div>`;
+    itemsDiv.appendChild(newItem);
+});
+
+// Event listener to remove dynamically added items
+document.addEventListener('click', function (event) {
+    if (event.target.classList.contains('removeItem')) {
+        event.target.parentElement.remove();
+    }
+});
+            </script>
+        </section>
+    </main>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+
+    <script src="../js/sidebars.js"></script>
+    <script src="../js/main.js"></script>
+</body>
+
+</html>
